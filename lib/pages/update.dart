@@ -1,24 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
 
-
 class UpdateorDeleteTask extends StatefulWidget {
   final int index;
   const UpdateorDeleteTask({super.key, required this.index});
-
 
   @override
   State<StatefulWidget> createState() => UpdateorDeleteTaskState();
 }
 
 class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
-  
   String? _selected_priority;
   var _priorities = ['High', 'Medium', 'Low'];
   TextEditingController _dateeditController = TextEditingController();
   TextEditingController _titleeditController = TextEditingController();
   TextEditingController _priorityeditController = TextEditingController();
-
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -32,14 +28,16 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
         String day = picked.day.toString().padLeft(2, '0');
         String month = picked.month.toString().padLeft(2, '0');
         String year = picked.year.toString();
-        _dateeditController.text = "$day.$month.$year"; // 👈 istediğin format
+        _dateeditController.text = "$day.$month.$year"; 
       });
     }
   }
+
   @override
   void initState() {
     super.initState();
-    _titleeditController.text = tasks[widget.index][0].toString(); // burada yapılmalı
+    _titleeditController.text = tasks[widget.index][0]
+        .toString();
     _dateeditController.text = tasks[widget.index][1].toString();
     _selected_priority = tasks[widget.index][2].toString();
   }
@@ -124,31 +122,48 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
               width: 330,
               height: 50,
               child: ElevatedButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                ),
                 onPressed: () {
                   List<Object> updatedTask = [
                     _titleeditController.text,
                     _dateeditController.text,
                     _selected_priority.toString(),
-                    tasks[widget.index][3],  
+                    tasks[widget.index][3],
                   ];
                   Navigator.pop(context, updatedTask);
-
                 },
-                child: Text('Update',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                child: Text(
+                  'Update',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
-            SizedBox(height: 10,),
+            SizedBox(height: 10),
             SizedBox(
               width: 330,
               height: 50,
               child: ElevatedButton(
-                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
-                onPressed: (){
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(Colors.red),
+                ),
+                onPressed: () {
                   tasks.removeAt(widget.index);
                   Navigator.pop(context);
                 },
-                child: Text('Delete',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+                child: Text(
+                  'Delete',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
               ),
             ),
           ],

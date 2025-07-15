@@ -29,7 +29,7 @@ class AddTaskPageState extends State<AddTaskPage> {
         String day = picked.day.toString().padLeft(2, '0');
         String month = picked.month.toString().padLeft(2, '0');
         String year = picked.year.toString();
-        _dateController.text = "$day.$month.$year"; // 👈 istediğin format
+        _dateController.text = "$day.$month.$year";
       });
     }
   }
@@ -122,10 +122,10 @@ class AddTaskPageState extends State<AddTaskPage> {
                     var newTask = [
                       _titleController.text,
                       _dateController.text,
-                      _selected_priority!, // 👈 dropdown'dan gelen bilgi
+                      _selected_priority!,
                       false,
                     ];
-                    Navigator.pop(context,newTask); // 👈 veriyi geri gönderiyoruz
+                    Navigator.pop(context,newTask);
                     
                     
                   } else {

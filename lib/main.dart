@@ -108,15 +108,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       );
                       if (updatedTask != null) {
                         setState(() {
-                          tasks[index]=updatedTask as List<Object>;
+                          tasks[index] = updatedTask as List<Object>;
                         });
-                      } else{
-                        setState(() {
-                          
-                        });
+                      } else {
+                        setState(() {});
                       }
                     },
-                    
+
                     child: Text(tasks[index][0].toString()),
                   ),
                   subtitle: Text(
