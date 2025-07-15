@@ -7,6 +7,7 @@ void main() {
 class RouteNames {
   static const home = '/';
   static const add = '/addtask';
+  static const update_delete = '/update_delete';
 }
 
 class MyApp extends StatelessWidget {
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
       routes: {
         RouteNames.home: (context) => const MyHomePage(),
         RouteNames.add: (context) => AddTaskPage(),
+        RouteNames.update_delete: (context) => UpdateorDeleteTask(),
       },
     );
   }
@@ -33,7 +35,7 @@ class MyHomePage extends StatefulWidget {
 var tasks = [
   ['Task1', '01.01.2020','Low', false],
   ['Task2', '01.01.2020','High', false],
-  ['task3', '01.01.2020','Medium' ,false],
+  ['task3', '01.01.2020','Mediaum' ,false],
 ];
 
 class _MyHomePageState extends State<MyHomePage> {
@@ -105,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
         shape: CircleBorder(),
         backgroundColor: Colors.white,
         onPressed: () async {
-          final newTask = await Navigator.pushNamed(context, RouteNames.add) as List<Object>?;
+          final newTask = await Navigator.pushNamed(context, RouteNames.update_delete) as List<Object>?;
           if (newTask != null) {
             setState(() {
               tasks.add(newTask);
@@ -251,6 +253,174 @@ class AddTaskPageState extends State<AddTaskPage> {
                   }
                 },
                 child: Text('Add',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class UpdateorDeleteTask extends StatefulWidget {
+  UpdateorDeleteTask({super.key});
+
+  @override
+  State<StatefulWidget> createState() => UpdateorDeleteTaskState();
+}
+
+class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
+  String? _selected_priority;
+  var _priorities = ['High', 'Medium', 'Low'];
+  TextEditingController _dateController = TextEditingController();
+  TextEditingController _titleController = TextEditingController();
+  TextEditingController _priorityController = TextEditingController();
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+    );
+    if (picked != null) {
+      setState(() {
+        String day = picked.day.toString().padLeft(2, '0');
+        String month = picked.month.toString().padLeft(2, '0');
+        String year = picked.year.toString();
+        _dateController.text = "$day.$month.$year"; // 👈 istediğin format
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          'Update Task',
+          style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        ),
+      ),
+      body: Center(
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            SizedBox(
+              width: 330,
+              height: 50,
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  label: Text('Title'),
+                ),
+                controller: _titleController,
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 330,
+              height: 50,
+              child: TextField(
+                controller: _dateController,
+                readOnly: true,
+                decoration: InputDecoration(
+                  labelText: 'Date',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
+                onTap: () => _selectDate(context),
+              ),
+            ),
+            SizedBox(height: 20),
+
+            SizedBox(
+              height: 50,
+              width: 330,
+              child: DropdownButtonHideUnderline(
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12),
+                  decoration: BoxDecoration(
+                    border: Border.all(),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: DropdownButton<String>(
+                    hint: Text('Priority'),
+                    value: _selected_priority,
+                    isExpanded: true,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selected_priority = newValue!;
+                      });
+                    },
+                    icon: Icon(Icons.assistant_navigation, color: Colors.red),
+                    items: _priorities.map((String priority) {
+                      return DropdownMenuItem<String>(
+                        value: priority,
+                        child: Text(priority),
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            SizedBox(
+              width: 330,
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
+                onPressed: () {
+                  if (_titleController.text.isNotEmpty &&
+                      _dateController.text.isNotEmpty &&
+                      _selected_priority != null) {
+                    var newTask = [
+                      _titleController.text,
+                      _dateController.text,
+                      _selected_priority!, // 👈 dropdown'dan gelen bilgi
+                      false,
+                    ];
+                    Navigator.pop(context,newTask); // 👈 veriyi geri gönderiyoruz
+                    
+                    
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Please fill in all the fields.")),
+                    );
+                  }
+                },
+                child: Text('Update',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
+              ),
+            ),
+            SizedBox(height: 10,),
+            SizedBox(
+              width: 330,
+              height: 50,
+              child: ElevatedButton(
+                style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
+                onPressed: () {
+                  if (_titleController.text.isNotEmpty &&
+                      _dateController.text.isNotEmpty &&
+                      _selected_priority != null) {
+                    var newTask = [
+                      _titleController.text,
+                      _dateController.text,
+                      _selected_priority!, // 👈 dropdown'dan gelen bilgi
+                      false,
+                    ];
+                    Navigator.pop(context,newTask); // 👈 veriyi geri gönderiyoruz
+                    
+                    
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Please fill in all the fields.")),
+                    );
+                  }
+                },
+                child: Text('Delete',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
               ),
             ),
           ],
