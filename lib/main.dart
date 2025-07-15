@@ -135,6 +135,8 @@ class AddTaskPageState extends State<AddTaskPage> {
   TextEditingController _titleController = TextEditingController();
   TextEditingController _priorityController = TextEditingController();
 
+  
+
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
       context: context,
@@ -271,9 +273,9 @@ class UpdateorDeleteTask extends StatefulWidget {
 class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
   String? _selected_priority;
   var _priorities = ['High', 'Medium', 'Low'];
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _priorityController = TextEditingController();
+  TextEditingController _dateeditController = TextEditingController();
+  TextEditingController _titleeditController = TextEditingController();
+  TextEditingController _priorityeditController = TextEditingController();
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -287,7 +289,7 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
         String day = picked.day.toString().padLeft(2, '0');
         String month = picked.month.toString().padLeft(2, '0');
         String year = picked.year.toString();
-        _dateController.text = "$day.$month.$year"; // 👈 istediğin format
+        _dateeditController.text = "$day.$month.$year"; // 👈 istediğin format
       });
     }
   }
@@ -315,7 +317,7 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
                   ),
                   label: Text('Title'),
                 ),
-                controller: _titleController,
+                controller: _titleeditController,
               ),
             ),
             SizedBox(height: 20),
@@ -323,7 +325,7 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
               width: 330,
               height: 50,
               child: TextField(
-                controller: _dateController,
+                controller: _dateeditController,
                 readOnly: true,
                 decoration: InputDecoration(
                   labelText: 'Date',
@@ -374,23 +376,7 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
               child: ElevatedButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
                 onPressed: () {
-                  if (_titleController.text.isNotEmpty &&
-                      _dateController.text.isNotEmpty &&
-                      _selected_priority != null) {
-                    var newTask = [
-                      _titleController.text,
-                      _dateController.text,
-                      _selected_priority!, // 👈 dropdown'dan gelen bilgi
-                      false,
-                    ];
-                    Navigator.pop(context,newTask); // 👈 veriyi geri gönderiyoruz
-                    
-                    
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Please fill in all the fields.")),
-                    );
-                  }
+                  
                 },
                 child: Text('Update',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
               ),
@@ -402,23 +388,7 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
               child: ElevatedButton(
                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red),),
                 onPressed: () {
-                  if (_titleController.text.isNotEmpty &&
-                      _dateController.text.isNotEmpty &&
-                      _selected_priority != null) {
-                    var newTask = [
-                      _titleController.text,
-                      _dateController.text,
-                      _selected_priority!, // 👈 dropdown'dan gelen bilgi
-                      false,
-                    ];
-                    Navigator.pop(context,newTask); // 👈 veriyi geri gönderiyoruz
-                    
-                    
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text("Please fill in all the fields.")),
-                    );
-                  }
+                  
                 },
                 child: Text('Delete',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,fontSize: 20),),
               ),
