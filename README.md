@@ -1,16 +1,32 @@
-# task_manager
+# Task Manager App (Flutter)
 
-A new Flutter project.
+## Overview
 
-## Getting Started
+Task Manager is a simple Flutter application that allows users to manage their daily tasks. Users can add new tasks with a title, date, and priority level, update existing tasks, or delete tasks. The app also supports marking tasks as completed.
 
-This project is a starting point for a Flutter application.
+## Features
 
-A few resources to get you started if this is your first Flutter project:
+- Add new tasks with title, date picker, and priority selection
+- Update existing tasks or delete them
+- Mark tasks as completed with a checkbox
+- Date selection through an interactive calendar
+- Clean and intuitive user interface
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Project Structure
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- **main.dart**  
+  Main screen displaying the list of tasks with options to add, update, or delete tasks.
+
+- **add.dart (AddTaskPage)**  
+  Page to add a new task. Includes form fields for title, date, and priority, and validation for input completeness.
+
+- **update.dart (UpdateorDeleteTask)**  
+  Page to update or delete an existing task. Fields are pre-filled with the current task data.
+
+## How to Run
+
+1. Make sure you have Flutter installed and set up on your machine.
+2. Clone or download the project.
+3. Run the app using the command:  
+   ```bash
+   flutter run
