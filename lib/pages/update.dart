@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_manager/main.dart';
+import 'package:task_manager/models/task.dart';
+import 'package:task_manager/models/database_helper.dart';
 
 class UpdateorDeleteTask extends StatefulWidget {
   final int index;
@@ -36,10 +38,10 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
   @override
   void initState() {
     super.initState();
-    _titleeditController.text = tasks[widget.index][0]
+    _titleeditController.text = tasks[widget.index][1]
         .toString();
-    _dateeditController.text = tasks[widget.index][1].toString();
-    _selected_priority = tasks[widget.index][2].toString();
+    _dateeditController.text = tasks[widget.index][2].toString();
+    _selected_priority = tasks[widget.index][3].toString();
   }
 
   @override
@@ -127,10 +129,11 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
                 ),
                 onPressed: () {
                   List<Object> updatedTask = [
+                    tasks[widget.index][0],
                     _titleeditController.text,
                     _dateeditController.text,
                     _selected_priority.toString(),
-                    tasks[widget.index][3],
+                    tasks[widget.index][4],
                   ];
                   Navigator.pop(context, updatedTask);
                 },
@@ -153,7 +156,9 @@ class UpdateorDeleteTaskState extends State<UpdateorDeleteTask> {
                   backgroundColor: MaterialStateProperty.all(Colors.red),
                 ),
                 onPressed: () {
-                  tasks.removeAt(widget.index);
+                  var task_id = tasks[widget.index][0] as int;
+                  final DatabaseHelper _databaseHelper  = DatabaseHelper();
+                  _databaseHelper.deleteTask(task_id);
                   Navigator.pop(context);
                 },
                 child: Text(
